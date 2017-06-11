@@ -169,7 +169,6 @@ authenticate(config)
 		var getRules = getjson('rules')
 			.then(writeRules());
 		var getPages = getjson('clients')
-			.then((clients) => clients.filter((c) => c.global != true))
 			.then((clients) => clients.filter((c) => c.custom_login_page_on != false))
 			.then(writePages('pages'));
 	}
