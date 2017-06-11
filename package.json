@@ -25,7 +25,7 @@
     "type": "git",
     "url": "git+https://github.com/teknophile74/auth0-exp.git"
   },
-  "author": "Olivier Bourdoux",
+  "author": "Aaron Burke",
   "license": "MIT",
   "homepage": "https://github.com/teknophile74/auth0-exp#readme"
 }

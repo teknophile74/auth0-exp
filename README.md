@@ -17,7 +17,7 @@ You need a configured client on Auth0 and a config file to run the tool.
 1. Create the credentials file : refer to the sample file `a0deploy_config.json.sample` and fill in the credentials.
 You can find them in the settings of the client you created.
 
-Additionaly you will require the [node-auth0]( https://github.com/auth0/node-auth0) project installed globally as a base for the API projects to work via a local node proxy to the remote Auth0 API's.
+Additionaly, you will require the [node-auth0]( https://github.com/auth0/node-auth0) project installed globally and configured as a base for the -p or --proxied_api flag to work via a localized node proxy to the remote Auth0 API's.
 
 ## Usage
 
@@ -50,6 +50,10 @@ repository =>
     rule1.json
     rule2.js
   pages
+	error_page.html
+	error_page.json
+	guardian_multifactor.html
+	guardian_multifactor.json
     login.html
     login.json
     password_reset.html
