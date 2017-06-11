@@ -11,6 +11,7 @@ const authenticate = require('./lib/auth');
 
 program
 .option('-o,--output_dir <output dir>', 'The directory where the config will be written. See README and online for more info.')
+.option('-p,--proxied_api', 'Defines whether or not the program should point to a localized node proxy. Absence of this option with result in the default behavior of direct Auto0 API interaction.')
 .parse(process.argv);
 
 if (!program.output_dir) {
@@ -112,7 +113,6 @@ function writeConnections() {
 		//writeFiles('connections')(json);
 	}
 }
-//----------------------------------------------------------------------------------------------------------------------
 
 function writePages(dir, extension = '.html') {
 	mkdirp(path.join(DIR,dir));
@@ -129,23 +129,50 @@ function writePages(dir, extension = '.html') {
 		}
 	}
 }
+//----------------------------------------------------------------------------------------------------------------------
+
+if (program.proxied_api) {
+	var ManagementClient = require('auth0').ManagementClient;
+}
 
 winston.info("Dumping configuration to "+DIR);
 authenticate(config)
 .then((token) => {TOKEN = token})
 .then(() => {
-	var getConnections = getjson('connections')
-		.then(writeConnections());
-	var getClients = getjson('clients')
-		.then((clients) => clients.filter((c) => c.global != true))
-		.then((clients) => clients.filter((c) => c.client_id != config.AUTH0_CLIENT_ID))
-		.then(writeFiles('clients'));
-	var getRules = getjson('rules')
-		.then(writeRules());
-	var getPages = getjson('clients')
-		.then((clients) => clients.filter((c) => c.global != true))
-		.then((clients) => clients.filter((c) => c.custom_login_page_on != false))
-		.then(writePages('pages'));
+	if (typeof ManagementClient != 'undefined') {   
+		var management = new ManagementClient({
+			token: TOKEN,
+			domain: config.AUTH0_DOMAIN
+		});
+	}
+	if (typeof management != 'undefined') {
+		var getConnections = management.getConnections()
+			.then(writeConnections());
+		var getClients = management.getClients()
+			.then((clients) => clients.filter((c) => c.global != true))
+			.then((clients) => clients.filter((c) => c.client_id != config.AUTH0_CLIENT_ID))
+			.then(writeFiles('clients'));
+		var getRules = management.getRules()
+			.then(writeRules());
+		var getPages = management.getClients()
+			.then((clients) => clients.filter((c) => c.global != true))
+			.then((clients) => clients.filter((c) => c.custom_login_page_on != false))
+			.then(writePages('pages'));	
+	}
+	else {											 
+		var getConnections = getjson('connections')
+			.then(writeConnections());
+		var getClients = getjson('clients')
+			.then((clients) => clients.filter((c) => c.global != true))
+			.then((clients) => clients.filter((c) => c.client_id != config.AUTH0_CLIENT_ID))
+			.then(writeFiles('clients'));
+		var getRules = getjson('rules')
+			.then(writeRules());
+		var getPages = getjson('clients')
+			.then((clients) => clients.filter((c) => c.global != true))
+			.then((clients) => clients.filter((c) => c.custom_login_page_on != false))
+			.then(writePages('pages'));
+	}
 	
 	return Promise.all([getConnections, getClients, getRules, getPages])
 })
