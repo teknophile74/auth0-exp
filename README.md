@@ -1,6 +1,4 @@
-# auth0-dump-config
-
-[![wercker status](https://app.wercker.com/status/9c3801d9c1c740834c61da5a925d4ca9/s/master "wercker status")](https://app.wercker.com/project/byKey/9c3801d9c1c740834c61da5a925d4ca9)
+# auth0-exp
 
 Auth0 configuration dump tool - extension
 This is an extension of the [auth0-dump-config](https://github.com/xurei/auth0-dump-config) project 

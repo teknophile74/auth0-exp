@@ -1,7 +1,7 @@
 {
-  "name": "auth0-dump-config",
-  "version": "1.0.3",
-  "description": "Auth0 configuration dump tool",
+  "name": "auth0-exp",
+  "version": "1.0.0",
+  "description": "Auth0 configuration dump tool - with hosted pages",
   "dependencies": {
     "mkdirp": "^0.5.1",
     "winston": "^2.3.0",
@@ -23,9 +23,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xurei/auth0-dump-config.git"
+    "url": "git+https://github.com/teknophile74/auth0-exp.git"
   },
   "author": "Olivier Bourdoux",
   "license": "MIT",
-  "homepage": "https://github.com/xurei/auth0-dump-config#readme"
+  "homepage": "https://github.com/teknophile74/auth0-exp#readme"
 }
